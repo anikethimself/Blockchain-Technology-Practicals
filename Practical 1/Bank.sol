@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Bank {
+    mapping(address => uint256) public balanceOf;
+
+    function deposit() public payable {
+        require(msg.value > 0, "Deposit should be greater than zero.");
+        balanceOf[msg.sender] += msg.value;
+    }
+
+    function withdraw() public {
+        uint256 balance = balanceOf[msg.sender];
+
+        require(balance > 0, "Your balance should be greater than zero.");
+
+        balanceOf[msg.sender] = 0;
+
+        payable(msg.sender).transfer(balance);
+    }
+
+    function showBalance() public view returns (uint256) {
+        return balanceOf[msg.sender];
+    }
+}
